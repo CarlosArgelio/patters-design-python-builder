@@ -11,6 +11,9 @@ class Builder():
     def produce_type_property(self) -> None:
         pass
 
+    def produce_type_operation(self) -> None:
+        pass
+
 class RealStateProperty():
 
     def __init__(self) -> None:
@@ -40,6 +43,9 @@ class ConcreteBuilder(Builder):
     def produce_type_property(self, type_property: str) -> None:
         self._real_state_property.add(type_property)
 
+    def produce_type_operation(self, type_operation: str) -> None:
+        self._real_state_property.add(type_operation)
+
 
 class Director:
 
@@ -54,8 +60,15 @@ class Director:
     def real_estate_property(self, builder: Builder) -> None:
         self._real_estate_property = builder
 
-    def build_property(self, type_property: str) -> None:
-        self.real_estate_property.produce_type_property(type_property)
+    def _build_property(self, build, build_data: str) -> None:
+
+        build(build_data)
+
+        # self.real_estate_property.produce_type_property(build_data)
+
+    def build_type_operation(self, type_operation: str) -> None:
+        self.real_estate_property.produce_type_operation(type_operation)
+
 
 
 if __name__ == '__main__':
@@ -63,11 +76,19 @@ if __name__ == '__main__':
     builder = ConcreteBuilder()
     director.real_estate_property = builder
 
-    director.build_property('Apartment')
-    director.build_property('House')
+    print('PRUEBA ARRECHA ==>', director.build_type_operation.__doc__)
+
+    for function in dir(director):
+        if callable(getattr(director, function)):
+            # print(type(function))
+            print(function)
+
+    director._build_property(director.build_type_operation, 'Venta')
+    # director._build_property('Apartment')
+    # director._build_property('House')
     builder.real_state_property.list_characteristics()
 
-    print('-------------------')
+    # print('-------------------')
 
-    director.build_property('House')
-    builder.real_state_property.list_characteristics()
+    # director._build_property('House')
+    # builder.real_state_property.list_characteristics()
