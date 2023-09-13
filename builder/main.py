@@ -76,14 +76,11 @@ if __name__ == '__main__':
     builder = ConcreteBuilder()
     director.real_estate_property = builder
 
-    print('PRUEBA ARRECHA ==>', director.build_type_operation.__doc__)
+    dict_build = {
+        'typeOperation': director.build_type_operation
+    }
 
-    for function in dir(director):
-        if callable(getattr(director, function)):
-            # print(type(function))
-            print(function)
-
-    director._build_property(director.build_type_operation, 'Venta')
+    director._build_property(dict_build['typeOperation'], 'Venta')
     # director._build_property('Apartment')
     # director._build_property('House')
     builder.real_state_property.list_characteristics()
